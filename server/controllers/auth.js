@@ -19,6 +19,7 @@ export const login = async (req, res) => {
 
         if(!isPasswordCorrect) return res.status(400).send("invalid credentials"); 
 
+        //jab user nae login sign up krlita tb humne ek token generate krwaya h
         const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, 'test', { expiresIn: "1h" });
 
         userPreference = existingUser.preference;
@@ -43,6 +44,9 @@ export const signup = async (req, res) => {
 
         const result = await User.create({ bio, birthday, email, gender, img, name, hashedPassword, preference });
         const profile = await Card.create({ name, img, bio });
+
+        //jab user nae login sign up krlita tb humne ek token generate krwaya h
+        //sign in wala hai hence email verification hoga isme token ke through
 
         const token = jwt.sign({ email: result.email, id: result._id }, 'test', { expiresIn: "1h" });
 
